@@ -1,7 +1,3 @@
-# ENGR315-Energy-Efficiency-Final-Project
-Final Project for ENGR 315 
-
-
 # How Building Design Affects Energy Efficiency
 
 **Course:** JMU ENGR 315 — Computational Methods in Engineering  
@@ -39,7 +35,7 @@ The dataset contains eight input variables and two output variables:
 | Y1 | Heating load |
 | Y2 | Cooling load |
 
-Our initial dataset contains 768 complete rows. We will verify the file structure and check for missing values before analysis.
+The dataset contains 768 complete rows. In Phase II, the Question 3 script verified that all 768 heating/cooling pairs are numeric and finite, with no rows excluded.
 
 **Dataset and download:**  
 https://archive.ics.uci.edu/dataset/242/energy+efficiency
@@ -215,28 +211,106 @@ A correlation between heating and cooling loads does not mean that one causes th
 
 At least two research questions will use statistical analysis or data fitting, as required by the project instructions.
 
+## Phase II Progress
+
+Question 3 has been implemented and run on all 768 configurations. Questions 1 and 2 remain planned work. This phase completes one question/method pair using correlation and linear data fitting.
+
+## Running the Question 3 Analysis
+
+Use Python 3 with the packages listed in `requirements.txt`. From a terminal in the repository folder, run:
+
+```bash
+python -m pip install -r requirements.txt
+python question3_analysis.py
+```
+
+The script locates the dataset relative to its own location, so it does not require a computer-specific file path. No dataset download is needed when the provided `data` folder is present.
+
+Required files:
+- `question3_analysis.py`: loads the data, calculates metrics, prints answers, and saves outputs.
+- `requirements.txt`: required Python packages.
+- `data/ENB2012_data.xlsx`: original UCI dataset, shared under CC BY 4.0 with attribution below.
+
+Generated files:
+- `results/question3_output.txt`: exact printed analysis report.
+- `results/question3_output.png`: image of that printed report.
+- `results/question3_plots.png`: scatterplot with fitted line and residual plot.
+- `results/question3_predictions.csv`: observed loads, fitted cooling loads, and residuals.
+
+Open the PNG files to view the graphs, or run `python question3_analysis.py --show` to open the saved plot in an image viewer.
+
+### Implemented Method
+
+The script reads Y1 (heating load) and Y2 (cooling load), checks that both columns exist, and checks the values for missing, non-numeric, or non-finite entries. It retains repeated load pairs because different configurations can have the same loads. It also reports duplicate full records. No rows needed removal in this run, and no duplicate full records were found.
+
+SciPy's `linregress` fits cooling load as a linear function of heating load and provides the Pearson correlation coefficient. NumPy calculates residuals, R-squared, and root mean squared error. Matplotlib creates the plots.
+
+The UCI variable table does not specify units for heating and cooling loads. Accordingly, outputs use original dataset units rather than assuming a physical unit.
+
 ## Results (Answers to the Questions)
+
+### Question 3: What relationship exists between heating load and cooling load?
+
+| Metric | Result |
+|---|---:|
+| Configurations analyzed | 768 |
+| Mean heating load | 22.307195 |
+| Mean cooling load | 24.587760 |
+| Pearson correlation, r | 0.975862 |
+| Fitted slope | 0.920068 |
+| Fitted intercept | 4.063630 |
+| R-squared | 0.952306 |
+| RMSE, dataset load units | 2.076251 |
+
+The fitted equation is:
+
+**Cooling load = 0.920068 × heating load + 4.063630**
+
+There is a strong positive linear relationship between heating and cooling loads in the simulated configurations. The fitted line accounts for approximately 95.23% of the observed variation in cooling load. A one-unit increase in heating load corresponds to an increase of about 0.9201 units in fitted cooling load.
+
+The RMSE is approximately 2.0763 dataset load units. This is the error on the same configurations used to fit the model; it is not a test of prediction accuracy on new buildings.
+
+### Printed Analysis Output
+
+![Printed metrics for Question 3](results/question3_output.png)
+
+[View the complete text output](results/question3_output.txt)
+
+### Question 3 Plots
+
+![Heating versus cooling load and residual plot](results/question3_plots.png)
+
+The scatterplot shows the strong upward relationship. The residuals show structure and changing spread rather than a completely random cloud around zero. A single line summarizes the overall relationship well but does not capture all variation between building configurations.
+
+### Questions 1 and 2
+
+Analyses of height/surface area and glazing/orientation are planned for the next stage. No final results are reported for these questions yet.
 
 ## Conclusions
 
+For Question 3, configurations with higher heating loads generally also have higher cooling loads. This supports our expected positive relationship. The correlation of 0.975862 and R-squared of 0.952306 show that a straight line provides a strong overall summary of this dataset.
+
+However, the residual pattern shows that the relationship is not fully described by a single line. Both loads may respond to common building-design features. These results describe simulated configurations, do not establish causation, and do not demonstrate performance on measured or unseen buildings.
+
 ## Actions that need to be completed
 
-- [ ] Confirm all team members have accepted GitHub collaborator invitations.
-- [ ] Review instructor feedback on the proposal.
-- [ ] Add the dataset or clear download instructions.
-- [ ] Verify column names, units, categories, and data quality.
-- [ ] Implement the analysis for Question 1.
-- [ ] Implement the analysis for Question 2.
-- [ ] Implement the analysis for Question 3.
-- [ ] Check statistical assumptions and model limitations.
-- [ ] Create final plots with titles, labels, and appropriate units.
-- [ ] Complete the Results section.
-- [ ] Complete the Conclusions section.
-- [ ] Add instructions for installing packages and running the code.
-- [ ] Verify that another person can reproduce the results.
+- [x] Include the original dataset with its source and attribution.
+- [x] Check the Question 3 load columns for invalid values.
+- [x] Implement and run Question 3 correlation and linear fitting.
+- [x] Print and save the calculated metrics.
+- [x] Generate the fitted-line plot and residual plot.
+- [x] Document Question 3 results, conclusions, and limitations.
+- [x] Add installation and execution instructions.
+- [ ] Confirm every teammate has accepted their collaborator invitation.
+- [ ] Review and address instructor feedback.
+- [ ] Complete Question 1: height, surface area, and heating load.
+- [ ] Complete Question 2: glazing, orientation, and cooling load.
+- [ ] Check statistical assumptions for the remaining analyses.
+- [ ] Have another teammate reproduce the results after downloading the repo.
+- [ ] Complete final conclusions across all three questions.
 - [ ] Prepare the final presentation and demonstration.
 
-Issues or obstacles will be documented alongside the relevant tasks as they arise.
+**Current limitation:** The Question 3 residual plot shows structure not captured by a simple linear fit. We will discuss this limitation when interpreting our final results.
 
 ## References/Source Files
 
@@ -247,4 +321,6 @@ Issues or obstacles will be documented alongside the relevant tasks as they aris
 
 3. The Energizing Engineers. *How Building Design Affects Energy Efficiency*. ENGR 315 Phase 0 Project Proposal, James Madison University.
 
-4. JMU ENGR 315 Project Description and Phase I assignment instructions.
+4. JMU ENGR 315 Project Description and Phase I and Phase II assignment instructions.
+
+5. Dataset license: Creative Commons Attribution 4.0 International (CC BY 4.0). https://creativecommons.org/licenses/by/4.0/
