@@ -1,0 +1,22 @@
+ENGR 315 -- The Energizing Engineers
+QUESTION 3: What relationship exists between heating and cooling load?
+========================================================================
+Spreadsheet rows read: 768
+Completely empty rows removed: 0
+Rows excluded for missing/non-numeric/non-finite Y1 or Y2: 0
+Configurations analyzed: 768
+Duplicate full records (reported, retained): 0
+
+Mean heating load: 22.307195
+Mean cooling load: 24.587760
+Pearson correlation (r): 0.975862
+Slope: 0.920068
+Intercept: 4.063630
+R-squared: 0.952306
+RMSE: 2.076251
+
+Cooling load = 0.920068 * heating load + 4.063630
+The fitted line explains 95.23% of cooling-load variation in this dataset.
+RMSE is measured on the same configurations used to fit the line.
+Load units: original dataset units; the UCI variable table gives no units.
+These results describe simulated configurations and do not prove causation.
